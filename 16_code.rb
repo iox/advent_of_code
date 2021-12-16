@@ -53,7 +53,6 @@ def decode_bits(bits)
 
     else
       # next 11 bits are a number that represents the number of sub-packets immediately contained by this packet
-      puts "NOT IMPLEMENTED"
       contained_subpackets_number = bits[index,11].to_i(2)
       index += 11
 
