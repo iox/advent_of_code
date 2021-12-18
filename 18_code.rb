@@ -8,12 +8,6 @@
   # If there are too many sublevels, there is an explosion
   # If any regular number is 10 or more, the number splits
 
-
-
-
-# The next step is to write my first test
-
-
 def sum(a, b)
   result = [a,b]
   # puts "after addition:   #{result.inspect.delete(' ')}"
@@ -227,7 +221,7 @@ def magnitude(n)
   raise "#{right.inspect}" if right.is_a?(Array)
 
   result = left * 3 + right * 2
-  puts "magnitude(#{n}) is returning #{result}"
+  # puts "magnitude(#{n}) is returning #{result}"
   return result
 end
   
@@ -304,9 +298,6 @@ raise "HEY" unless another_scary_example.reduce{|sum, n| sum(sum, n)}.inspect.de
 
 raise "HEY" unless magnitude([9,1]) == 29
 raise "HEY" unless magnitude([1,9]) == 21
-
-puts magnitude([[9,1],[1,9]])
-
 raise "HEY" unless magnitude([[9,1],[1,9]]) == 129
 raise "HEY" unless magnitude([[1,2],[[3,4],5]]) == 143
 raise "HEY" unless magnitude([[[[0,7],4],[[7,8],[6,0]]],[8,1]]) == 1384
@@ -321,5 +312,13 @@ raise "HEY" unless magnitude([[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8
 my_data = File.readlines('18_input').map{|l| eval(l)}
 puts magnitude(my_data.reduce{|sum, n| sum(sum, n)})
 
+
+my_data_2 = File.readlines('18_input').map{|l| eval(l)}
+data = my_data_2.permutation(2).map do |(a, b)|
+  tempa = Marshal.load(Marshal.dump(a))
+  tempb = Marshal.load(Marshal.dump(b))
+  magnitude(sum(tempa,tempb))
+end
+puts data.max
 
 puts "OK"
