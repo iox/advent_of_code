@@ -142,6 +142,7 @@ def find_deltas(s0, s1)
 end
 
 
+# Part 1
 matching_beacons_from_zero = []
 
 # When we start, the only oriented scanner is 0
@@ -232,104 +233,7 @@ loop do
 end
 
 
-# find_orientations(scanners[1]).each_with_index do |orientation, index|
-#   delta, matching_beacons = find_deltas(scanners[0], orientation)
-#   if delta
-#     scanners[1] = orientation # Fix the orientation for subsequent loops
-
-#     dx,dy,dz = delta
-
-#     delta_from_zero[0] -= dx
-#     delta_from_zero[1] -= dy
-#     delta_from_zero[2] -= dz
-
-#     puts "\n\n\nFound a working orientation in loop #{index}, stopping"
-#     puts orientation.inspect
-#     puts "Delta: #{delta.inspect}"
-#     puts "Delta from 0: #{delta_from_zero.inspect}"
-
-#     temp = matching_beacons.map do |b|
-#       x,y,z = b
-#       [x+delta_from_zero[0],y+delta_from_zero[1],z+delta_from_zero[2]]
-#     end
-#     matching_beacons_from_zero += temp
-#     puts "Printing matching beacons from the perspective of 0"
-#     temp.each do |b|
-#       puts b.join(",")
-#     end
-#     break
-#   end
-# end
-
-
-
-
-
-# find_orientations(scanners[1]).each_with_index do |orientation, index|
-#   delta, matching_beacons = find_deltas(scanners[0], orientation)
-#   if delta
-#     scanners[1] = orientation # Fix the orientation for subsequent loops
-
-#     dx,dy,dz = delta
-
-#     delta_from_zero[0] -= dx
-#     delta_from_zero[1] -= dy
-#     delta_from_zero[2] -= dz
-
-#     puts "\n\n\nFound a working orientation in loop #{index}, stopping"
-#     puts orientation.inspect
-#     puts "Delta: #{delta.inspect}"
-#     puts "Delta from 0: #{delta_from_zero.inspect}"
-
-#     temp = matching_beacons.map do |b|
-#       x,y,z = b
-#       [x+delta_from_zero[0],y+delta_from_zero[1],z+delta_from_zero[2]]
-#     end
-#     matching_beacons_from_zero += temp
-#     puts "Printing matching beacons from the perspective of 0"
-#     temp.each do |b|
-#       puts b.join(",")
-#     end
-#     break
-#   end
-# end
-
-
-
-
-
-
-
-# find_orientations(scanners[4]).each_with_index do |orientation, index|
-#   delta, matching_beacons = find_deltas(scanners[1], orientation)
-#   if delta
-#     dx,dy,dz = delta
-
-#     delta_from_zero[0] -= dx
-#     delta_from_zero[1] -= dy
-#     delta_from_zero[2] -= dz
-
-#     puts "\n\n\nFound a working orientation in loop #{index}, stopping"
-#     puts orientation.inspect
-#     puts "Delta: #{delta.inspect}"
-#     puts "Delta from 0: #{delta_from_zero.inspect}"
-
-#     temp = matching_beacons.map do |b|
-#       x,y,z = b
-#       [x+delta_from_zero[0],y+delta_from_zero[1],z+delta_from_zero[2]]
-#     end
-#     matching_beacons_from_zero += temp
-#     puts "Printing matching beacons from the perspective of 0"
-#     temp.each do |b|
-#       puts b.join(",")
-#     end
-#     break
-#   end
-# end
-
 matching_beacons_from_zero.uniq!.sort
-
-
 matching_beacons_from_zero.each do |mb|
   puts mb.inspect
 end
@@ -343,3 +247,18 @@ puts "matching_beacons_from_zero.size: #{matching_beacons_from_zero.size}"
 
 
 puts oriented_scanners.map{|s| s[:data_from_zero]}.reduce(:+).uniq.size
+
+scanner_positions = oriented_scanners.map{|s| s[:delta_from_zero]}
+puts scanner_positions.inspect
+
+
+
+# Hardcoding them here so I don't have to do the slow part 1 again
+# scanner_positions = [[0, 0, 0], [-70, 28, -1272], [9, 1216, -25], [14, 1370, 1125], [1275, 1293, -40], [1148, 1288, 1221], [1312, 2431, -74], [2388, 1292, -161], [2468, 1268, 1037], [107, 2503, 1043], [-1192, 1274, 1183], [3559, 1311, 1162], [6, 130, -2570], [18, -1061, -1242], [1254, 47, -2555], [-1183, 27, -2414], [53, 1240, -2471], [51, -1172, -2389], [-1201, -1054, -2387], [-1181, 12, -3643], [-1145, -1019, -1316], [-1177, -2373, -2403], [3697, 1342, -106], [2361, 63, -153], [2411, -1056, -3], [83, -2268, -2440], [69, -2403, -1371], [-1226, 25, 1218], [-1246, 1273, 2324], [2378, -1045, 1223], [2377, -2303, 6], [-2475, 53, 1039], [-2458, 150, -130], [-2404, -1074, -96], [2401, -3418, -16]]
+
+
+distances = scanner_positions.combination(2).to_a.map do |(a,b)|
+  (a[0]-b[0]).abs + (a[1]-b[1]).abs + (a[2]-b[2]).abs
+end
+
+puts distances.max
