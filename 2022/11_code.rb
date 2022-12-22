@@ -1,5 +1,5 @@
 monkeys = []
-File.read('11_example').split("\n\n").each do |monkey|
+File.read('11_input').split("\n\n").each do |monkey|
   lines = monkey.split("\n")
   monkeys << {
     items: lines[1].split("Starting items: ")[1].split(", ").map(&:to_i),

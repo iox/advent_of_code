@@ -24,7 +24,7 @@ queue = []
 
 File.read('12_input').split("\n").each_with_index do |row, y|
   row.chars.each.with_index do |letter, x|
-    if letter == "S"
+    if letter == "S" || letter == "a"
       letter = "a"
       queue << [y,x]
       efforts[[y,x]] = 0
