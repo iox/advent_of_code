@@ -60,6 +60,8 @@ grid.each_with_index do |y_data, y|
     # y = 1
     # height = 5
 
+    # next unless x == 3 && y == 3
+
     # Skip the corners, their score is always zero
     if x == 0 || y == 0 || x == grid.size-1 || y == grid.size-1
       next
@@ -67,12 +69,10 @@ grid.each_with_index do |y_data, y|
 
     top_score, bottom_score, left_score, right_score = 0,0,0,0
 
-    points_on_top = (0..y-1).to_a.map{|new_y| grid[new_y][x]}
+    points_on_top = (0..y-1).to_a.map{|new_y| grid[new_y][x]}.reverse
     points_on_top.each do |tree|
-      if tree <= height
-        top_score += 1
-        break if tree == height
-      else
+      top_score += 1
+      if tree >= height
         break
       end
     end
@@ -80,21 +80,17 @@ grid.each_with_index do |y_data, y|
 
     points_on_bottom = (y+1..(grid.size-1)).to_a.map{|new_y| grid[new_y][x]}
     points_on_bottom.each do |tree|
-      if tree <= height
-        bottom_score += 1
-        break if tree == height
-      else
+      bottom_score += 1
+      if tree >= height
         break
       end
     end
     # puts "points_on_bottom: #{points_on_bottom} => bottom_score #{bottom_score}"
 
-    points_on_left = (0..x-1).to_a.map{|new_x| grid[y][new_x]}
+    points_on_left = (0..x-1).to_a.map{|new_x| grid[y][new_x]}.reverse
     points_on_left.each do |tree|
-      if tree <= height
-        left_score += 1
-        break if tree == height
-      else
+      left_score += 1
+      if tree >= height
         break
       end
     end
@@ -102,16 +98,33 @@ grid.each_with_index do |y_data, y|
 
     points_on_right = (x+1..(grid.size-1)).to_a.map{|new_x| grid[y][new_x]}
     points_on_right.each do |tree|
-      if tree <= height
-        right_score += 1
-        break if tree == height
-      else
+      right_score += 1
+      if tree >= height
         break
       end
     end
     # puts "points_on_right: #{points_on_right} => right_score #{right_score}"
 
-    scores << (top_score * bottom_score * left_score * right_score)
+    
+    total = (top_score * bottom_score * left_score * right_score)
+    # puts "\n\n\n\npoint x: #{x}  y: #{y} has score: #{total} // top_score #{top_score}  bottom_score #{bottom_score}  left #{left_score} right #{right_score}"
+
+    # 30373
+    # 25512
+    # 65332
+    # 33549
+    # 35390
+    
+
+
+    # puts "This tree has height #{grid[y][x]}"
+    # puts "  On top it has #{points_on_top}, which gives it a score of #{top_score}"
+    # puts "  On bottom it has #{points_on_bottom}, which gives it a score of #{bottom_score}"
+    # puts "  On right it has #{points_on_right}, which gives it a score of #{right_score}"
+    # puts "  On left it has #{points_on_left}, which gives it a score of #{left_score}"
+    
+
+    scores << total
   end
 end
 
