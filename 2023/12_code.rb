@@ -64,44 +64,44 @@ end
 def part1(input)
   sum = 0
   input.each.with_index do |line, index|
-    puts "line #{index}"
+    # puts "line #{index}"
     sum += possible_arrangements(line)
   end
   sum
 end
 
 
-# describe 'possible_arrangements' do
-#   it 'calculates possible arrangements' do
-#     expect(possible_arrangements("? 1")).to eq 1
-#     expect(possible_arrangements("?? 1")).to eq 2
-#     expect(possible_arrangements("?? 2")).to eq 1
-#     expect(possible_arrangements("?.? 1,1")).to eq 1
-#     expect(possible_arrangements("#.? 1,1")).to eq 1
-#     expect(possible_arrangements("???.### 1,1,3")).to eq 1
-#     expect(possible_arrangements(".??..??...?##. 1,1,3")).to eq 4
-#     expect(possible_arrangements("?#?#?#?#?#?#?#? 1,3,1,6")).to eq 1
-#     expect(possible_arrangements("????.#...#... 4,1,1")).to eq 1
-#     expect(possible_arrangements("????.######..#####. 1,6,5")).to eq 4
-#     expect(possible_arrangements("?###???????? 3,2,1")).to eq 10
-#   end
-# end
+describe 'possible_arrangements' do
+  it 'calculates possible arrangements' do
+    expect(possible_arrangements("? 1")).to eq 1
+    expect(possible_arrangements("?? 1")).to eq 2
+    expect(possible_arrangements("?? 2")).to eq 1
+    expect(possible_arrangements("?.? 1,1")).to eq 1
+    expect(possible_arrangements("#.? 1,1")).to eq 1
+    expect(possible_arrangements("???.### 1,1,3")).to eq 1
+    expect(possible_arrangements(".??..??...?##. 1,1,3")).to eq 4
+    expect(possible_arrangements("?#?#?#?#?#?#?#? 1,3,1,6")).to eq 1
+    expect(possible_arrangements("????.#...#... 4,1,1")).to eq 1
+    expect(possible_arrangements("????.######..#####. 1,6,5")).to eq 4
+    expect(possible_arrangements("?###???????? 3,2,1")).to eq 10
+  end
+end
 
-# describe 'find_groups' do
-#   it 'finds groups in a string' do
-#     expect(find_groups("#")).to eq [1]
-#     expect(find_groups("#..##")).to eq [1,2]
-#     expect(find_groups("##..##")).to eq [2,2]
-#     expect(find_groups(".###.##...#.")).to eq [3,2,1]
-#   end
-# end
+describe 'find_groups' do
+  it 'finds groups in a string' do
+    expect(find_groups("#")).to eq [1]
+    expect(find_groups("#..##")).to eq [1,2]
+    expect(find_groups("##..##")).to eq [2,2]
+    expect(find_groups(".###.##...#.")).to eq [3,2,1]
+  end
+end
 
 
-# describe 'part1' do
-#   it 'calculates part 1' do
-#     expect(part1(examples)).to eq 21
-#   end
-# end
+describe 'part1' do
+  it 'calculates part 1' do
+    expect(part1(examples)).to eq 21
+  end
+end
 
 # puts part1(input)
 
@@ -202,64 +202,64 @@ end
 
 
 
-# describe 'fast_arrangements' do
-#   it 'calculates fast_arrangements' do
-#     expect(fast_arrangements("? 1")).to eq 1
-#     expect(fast_arrangements("...# 1")).to eq 1
-#     expect(fast_arrangements("?? 1")).to eq 2
-#     expect(fast_arrangements("?? 2")).to eq 1
-#     expect(fast_arrangements("?.? 1,1")).to eq 1
-#     expect(fast_arrangements("#.? 1,1")).to eq 1
+describe 'fast_arrangements' do
+  it 'calculates fast_arrangements' do
+    expect(fast_arrangements("? 1")).to eq 1
+    expect(fast_arrangements("...# 1")).to eq 1
+    expect(fast_arrangements("?? 1")).to eq 2
+    expect(fast_arrangements("?? 2")).to eq 1
+    expect(fast_arrangements("?.? 1,1")).to eq 1
+    expect(fast_arrangements("#.? 1,1")).to eq 1
 
-#     expect(fast_arrangements("#?? 1,1")).to eq 1
+    expect(fast_arrangements("#?? 1,1")).to eq 1
 
-#     expect(fast_arrangements("#?.? 1,1")).to eq 1
+    expect(fast_arrangements("#?.? 1,1")).to eq 1
     
 
-#     expect(possible_arrangements("?#.?? 1,1")).to eq 2
-#     expect(fast_arrangements(    "?#.?? 1,1")).to eq 2
+    expect(possible_arrangements("?#.?? 1,1")).to eq 2
+    expect(fast_arrangements(    "?#.?? 1,1")).to eq 2
     
     
-#     expect(fast_arrangements("???.### 1,1,3")).to eq 1
-#     expect(fast_arrangements(".??..??...?##. 1,1,3")).to eq 4
+    expect(fast_arrangements("???.### 1,1,3")).to eq 1
+    expect(fast_arrangements(".??..??...?##. 1,1,3")).to eq 4
 
 
-#     expect(possible_arrangements("?#?#?#?#?#?#?#? 1,3,1,6")).to eq 1
-#     expect(fast_arrangements(    "?#?#?#?#?#?#?#? 1,3,1,6")).to eq 1
-
-
-
-#     expect(fast_arrangements("????.#...#... 4,1,1")).to eq 1
-#     expect(fast_arrangements("????.######..#####. 1,6,5")).to eq 4
-
-#     expect(possible_arrangements("#??? 2,1")).to eq 1
-#     expect(fast_arrangements("#??? 2,1")).to eq 1
-
-#     expect(possible_arrangements("???? 1,1")).to eq 3
-
-#     expect(possible_arrangements("#???? 2,1")).to eq 2
-#     expect(fast_arrangements(    "#???? 2,1")).to eq 2
-
-#     expect(possible_arrangements("#????? 2,1")).to eq 3
-#     expect(fast_arrangements(    "#????? 2,1")).to eq 3
-
-#     expect(possible_arrangements("#???????? 2,1")).to eq 6
-#     expect(fast_arrangements(    "#???????? 2,1")).to eq 6
-
-#     expect(possible_arrangements("?###???????? 3,2,1")).to eq 10
-#     expect(fast_arrangements("?###???????? 3,2,1")).to eq 10
+    expect(possible_arrangements("?#?#?#?#?#?#?#? 1,3,1,6")).to eq 1
+    expect(fast_arrangements(    "?#?#?#?#?#?#?#? 1,3,1,6")).to eq 1
 
 
 
-#     expect(fast_arrangements(unfold("???.### 1,1,3"))).to eq 1
-#     expect(fast_arrangements(unfold(".??..??...?##. 1,1,3"))).to eq 16384
-#     expect(fast_arrangements(unfold("?#?#?#?#?#?#?#? 1,3,1,6"))).to eq 1
-#     expect(fast_arrangements(unfold("????.#...#... 4,1,1"))).to eq 16
-#     expect(fast_arrangements(unfold("????.######..#####. 1,6,5"))).to eq 2500
-#     expect(fast_arrangements(unfold("?###???????? 3,2,1"))).to eq 506250
+    expect(fast_arrangements("????.#...#... 4,1,1")).to eq 1
+    expect(fast_arrangements("????.######..#####. 1,6,5")).to eq 4
 
-#   end
-# end
+    expect(possible_arrangements("#??? 2,1")).to eq 1
+    expect(fast_arrangements("#??? 2,1")).to eq 1
+
+    expect(possible_arrangements("???? 1,1")).to eq 3
+
+    expect(possible_arrangements("#???? 2,1")).to eq 2
+    expect(fast_arrangements(    "#???? 2,1")).to eq 2
+
+    expect(possible_arrangements("#????? 2,1")).to eq 3
+    expect(fast_arrangements(    "#????? 2,1")).to eq 3
+
+    expect(possible_arrangements("#???????? 2,1")).to eq 6
+    expect(fast_arrangements(    "#???????? 2,1")).to eq 6
+
+    expect(possible_arrangements("?###???????? 3,2,1")).to eq 10
+    expect(fast_arrangements("?###???????? 3,2,1")).to eq 10
+
+
+
+    expect(fast_arrangements(unfold("???.### 1,1,3"))).to eq 1
+    expect(fast_arrangements(unfold(".??..??...?##. 1,1,3"))).to eq 16384
+    expect(fast_arrangements(unfold("?#?#?#?#?#?#?#? 1,3,1,6"))).to eq 1
+    expect(fast_arrangements(unfold("????.#...#... 4,1,1"))).to eq 16
+    expect(fast_arrangements(unfold("????.######..#####. 1,6,5"))).to eq 2500
+    expect(fast_arrangements(unfold("?###???????? 3,2,1"))).to eq 506250
+
+  end
+end
 
 
 
@@ -279,20 +279,20 @@ end
 
 
 
-# describe 'unfold' do
-#   it 'unfolds a line' do
-#     expect(unfold(".# 1")).to eq ".#?.#?.#?.#?.# 1,1,1,1,1"
-#     expect(unfold("???.### 1,1,3")).to eq "???.###????.###????.###????.###????.### 1,1,3,1,1,3,1,1,3,1,1,3,1,1,3"
-#   end
-# end
+describe 'unfold' do
+  it 'unfolds a line' do
+    expect(unfold(".# 1")).to eq ".#?.#?.#?.#?.# 1,1,1,1,1"
+    expect(unfold("???.### 1,1,3")).to eq "???.###????.###????.###????.###????.### 1,1,3,1,1,3,1,1,3,1,1,3,1,1,3"
+  end
+end
 
 
 
-# describe 'part2' do
-#   it 'calculates part 2' do
-#     expect(part2(examples)).to eq 525152
-#   end
-# end
+describe 'part2' do
+  it 'calculates part 2' do
+    expect(part2(examples)).to eq 525152
+  end
+end
 
 
 def part2(input)
@@ -304,4 +304,4 @@ def part2(input)
 end
 
 
-puts part2(input)
+# puts part2(input)
