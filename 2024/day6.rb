@@ -31,7 +31,7 @@ def part1_walk(input, max_iterations=nil)
     end
 
     if next_y < 0 || next_y < 0 || map[next_y] == nil || map[next_y][next_x] == nil
-      puts "Leaving the area!"
+      # puts "Leaving the area!"
       break
     end
 
@@ -67,6 +67,39 @@ def part1_walk(input, max_iterations=nil)
   result
 end
 
+class String
+  # colorization
+  def colorize(color_code)
+    "\e[#{color_code}m#{self}\e[0m"
+  end
+
+  def red
+    colorize(31)
+  end
+
+  def green
+    colorize(32)
+  end
+
+  def yellow
+    colorize(33)
+  end
+
+  def blue
+    colorize(34)
+  end
+
+  def pink
+    colorize(35)
+  end
+
+  def light_blue
+    colorize(36)
+  end
+end
+
+
+
 
 def part2_walk(input, blocking_position)
   map = input.split("\n").map(&:strip)
@@ -74,9 +107,12 @@ def part2_walk(input, blocking_position)
   x = start_line.index("^")
   y = map.index(start_line)
   direction = "^"
+  # sleep_time = 0.02
 
   # Start position can not be blocking position
-  return false if [y,x] == blocking_position
+  if [y,x] == blocking_position
+    return false
+  end
 
   # Set blocking position in map
   chars = map[blocking_position[0]].chars
@@ -88,15 +124,8 @@ def part2_walk(input, blocking_position)
   iterations = 0
   
   while true
-    # result = "    " +map.join("\n    ")+"\n"
-    # puts "After #{iterations} iterations, direction is #{direction}\n____________________\n#{result}"
-    if old_positions.include?([direction, y, x])
-      puts "Loop detected!"
-      return true
-    end
 
-    old_positions << [direction, y, x]
-    
+    # Calculate the next position we want to move to
     case direction
     when "^"
       next_y = y - 1
@@ -112,13 +141,17 @@ def part2_walk(input, blocking_position)
       next_x = x + 1
     end
 
-    if next_y < 0 || next_y < 0 || map[next_y] == nil || map[next_y][next_x] == nil
+    # With the next position, if it is is outside the area, return false
+    if next_y < 0 || next_x < 0 || map[next_y] == nil || map[next_y][next_x] == nil
       # puts "Leaving the area!"
       return false
     end
 
-
+    # With the next position, check if we can move there. If not, TURN
     if map[next_y][next_x] == "#" || map[next_y][next_x] == "O"
+      # if map[next_y][next_x] == "O"
+      #   sleep_time = 0.1
+      # end
       direction = case direction
       when "^"
         ">"
@@ -133,11 +166,32 @@ def part2_walk(input, blocking_position)
       next
     end
 
+    # We are definitely going to move! Check if we have been here before
+    if old_positions.include?("#{direction}-x#{x}-y#{y}")
+      puts "Loop detected! blocking position #{blocking_position}".yellow
+      # puts "After #{iterations} iterations, direction is #{direction}\n____________________\n"
+      # result = ("    " +map.join("\n    ")+"\n").gsub(".", " ").gsub("X", "·").gsub("^","^".yellow).gsub("v","v".yellow).gsub("<","<".yellow).gsub(">",">".yellow)
+      # puts result
+
+      return blocking_position
+    end
+
+    # Store the current position in the list of visited positions
+    old_positions << "#{direction}-x#{x}-y#{y}"
+
+    # Move if we hit a free space
     if map[next_y][next_x] == "." || map[next_y][next_x] == "X"
       map[y][x] = "X"
       map[next_y][next_x] = direction
       x = next_x
       y = next_y
+
+      # puts "\n\n\n\n----------------\n\n\n\n"
+      # result = ("    " +map.join("\n    ")+"\n").gsub(".", " ").gsub("X", "·").gsub("^","^".yellow).gsub("v","v".yellow).gsub("<","<".yellow).gsub(">",">".yellow)
+      # puts result
+      # sleep sleep_time
+    else
+      raise "ERROR"
     end
 
     iterations += 1
@@ -164,27 +218,38 @@ def part2(input)
     end
   end
 
-  require 'concurrent-ruby'
+  possible_block_positions = possible_block_positions
 
-  count = Concurrent::AtomicFixnum.new(0)
-  iterations = Concurrent::AtomicFixnum.new(0)
-  threads = []
+  # fucking_wrong_positions = [[1, 20], [4, 20], [12, 5], [12, 7], [12, 8], [12, 20], [23, 20], [25, 12], [25, 30], [83, 27]]
+
+  #   count = 0
+  #   fucking_wrong_positions.each_with_index do |pos, i|
+  #     if part2_walk(input.dup, pos)
+  #       puts "Iteration: #{i}. Loops: #{count}. Last loop found at #{pos}!".green
+  #       count += 1
+  #       raise "STOP HERE"
+  #     end 
+  #   end
+  #   return count
+
+
+  require 'parallel'
+
+  count = 0
 
   puts "Possible block positions: #{possible_block_positions.count}"
 
-  possible_block_positions.each_slice((possible_block_positions.size / 16.0).ceil).each do |slice|
-    threads << Thread.new do
-      slice.each_with_index do |pos, i|
-        print "."
-        count.increment if part2_walk(input, pos)
-        iterations.increment
-      end
-    end
+  results = Parallel.map_with_index(possible_block_positions, in_processes: 20) do |pos, i|
+    puts "Progress: #{i}/#{possible_block_positions.count}"
+    part2_walk(input, pos)
   end
 
-  threads.each(&:join)
+  my_valid_positions = results.reject{|r| r == false}
+  
+  puts "COUNT: #{my_valid_positions.count}"
 
-  puts count.value
+  my_valid_positions.count
+
 end
 
 
@@ -192,53 +257,7 @@ end
 
 
 
-# def parse(input)
-#   rules = {}
-#   input.split("\n\n")[0].split("\n").each do |r|
-#     numbers = r.strip.split("|").map(&:to_i)
-#     rules[numbers[0]] ||= []
-#     rules[numbers[0]] << numbers[1]
-#   end
-
-#   updates = input.split("\n\n")[1].split("\n").map{|u| u.strip.split(",").map(&:to_i)}
-
-#   return rules, updates
-# end
-
-
-# def part1(input)
-#   rules, updates = parse(input)
-#   count = 0
-#   updates.each do |u|
-#     if valid?(rules, u)
-#       count += u[u.length / 2]
-#     end
-#   end
-#   count
-# end
-
-
-
-
-# def part2(input)
-#   rules, updates = parse(input)
-#   count = 0
-#   updates.each do |u|
-#     if !valid?(rules, u)
-#       fixed_update = fix_order(u, rules)
-#       count += fixed_update[fixed_update.length / 2]
-#     end
-#   end
-#   count
-# end
-
-
-
-
-
-
-
-# puts part1(File.read("day6.txt"))
+puts part1(File.read("day6.txt"))
 puts part2(File.read("day6.txt"))
 
 
@@ -321,20 +340,18 @@ class TestDay3 < Minitest::Test
     EOF
   end
 
-  # def test_part1
-  #   assert_equal sample, part1_walk(sample, 0)
-  #   assert_equal after_5_sample, part1_walk(sample, 5)
-  #   assert_equal after_9_sample, part1_walk(sample, 9)
-  #   assert_equal after_14_sample, part1_walk(sample, 14)
+  def test_part1
+    assert_equal sample, part1_walk(sample, 0)
+    assert_equal after_5_sample, part1_walk(sample, 5)
+    assert_equal after_9_sample, part1_walk(sample, 9)
+    assert_equal after_14_sample, part1_walk(sample, 14)
 
-  #   assert_equal 41, (end_state.count("X")+1)
-  #   assert_equal 41, part1(sample)
-  # end
+    assert_equal 41, (end_state.count("X")+1)
+    assert_equal 41, part1(sample)
+  end
 
   def test_part2
     assert_equal 6, part2(sample)
   end
-
-
 
 end
