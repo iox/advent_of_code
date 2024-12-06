@@ -164,15 +164,27 @@ def part2(input)
     end
   end
 
-  count = 0
+  require 'concurrent-ruby'
+
+  count = Concurrent::AtomicFixnum.new(0)
+  iterations = Concurrent::AtomicFixnum.new(0)
+  threads = []
 
   puts "Possible block positions: #{possible_block_positions.count}"
-  possible_block_positions.each_with_index do |pos,i|
-    puts "Progress: #{i}/#{possible_block_positions.count}"
-    count += 1 if part2_walk(input, pos)
+
+  possible_block_positions.each_slice((possible_block_positions.size / 16.0).ceil).each do |slice|
+    threads << Thread.new do
+      slice.each_with_index do |pos, i|
+        print "."
+        count.increment if part2_walk(input, pos)
+        iterations.increment
+      end
+    end
   end
 
-  count   
+  threads.each(&:join)
+
+  puts count.value
 end
 
 
