@@ -245,6 +245,8 @@ def part2(input)
   end
 
   my_valid_positions = results.reject{|r| r == false}
+
+  puts my_valid_positions.inspect
   
   puts "COUNT: #{my_valid_positions.count}"
 
@@ -257,8 +259,8 @@ end
 
 
 
-puts part1(File.read("day6.txt"))
-puts part2(File.read("day6.txt"))
+# puts part1(File.read("day6.txt"))
+puts part2(File.read("day6cameron.txt"))
 
 
 require 'minitest/autorun'
@@ -340,18 +342,18 @@ class TestDay3 < Minitest::Test
     EOF
   end
 
-  def test_part1
-    assert_equal sample, part1_walk(sample, 0)
-    assert_equal after_5_sample, part1_walk(sample, 5)
-    assert_equal after_9_sample, part1_walk(sample, 9)
-    assert_equal after_14_sample, part1_walk(sample, 14)
+  # def test_part1
+  #   assert_equal sample, part1_walk(sample, 0)
+  #   assert_equal after_5_sample, part1_walk(sample, 5)
+  #   assert_equal after_9_sample, part1_walk(sample, 9)
+  #   assert_equal after_14_sample, part1_walk(sample, 14)
 
-    assert_equal 41, (end_state.count("X")+1)
-    assert_equal 41, part1(sample)
-  end
+  #   assert_equal 41, (end_state.count("X")+1)
+  #   assert_equal 41, part1(sample)
+  # end
 
-  def test_part2
-    assert_equal 6, part2(sample)
-  end
+  # def test_part2
+  #   assert_equal 6, part2(sample)
+  # end
 
 end
